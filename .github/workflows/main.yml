@@ -11,7 +11,7 @@ jobs:
       # Log into Azure
     - uses: azure/actions/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.MENTORINGWEBAPPCONNECTION }}
 
       # Deploy Bicep file
     - name: deploy
