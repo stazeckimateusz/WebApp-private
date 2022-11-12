@@ -16,6 +16,9 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION }}
   
       - name: 'Run az commands'
-        run: |
-          az account show
-          az group list
+        with:
+            subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+            resourceGroupName: 'Mentoring-Web-App'
+            template: ./infra/main.bicep
+            parameters: 'vnetName=mainvnetworktest1 vnetAddressSpace=10.1.0.0/16 snetAppSvcAddressPrefix=10.1.2.0/24 snetPrivateLinkAddressPrefix=10.1.1.0/24'
+            failOnStdErr: false
