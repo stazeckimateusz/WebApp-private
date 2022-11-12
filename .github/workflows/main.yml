@@ -19,6 +19,6 @@ jobs:
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: ${{ secrets.AZURE_RG }}
-        template: ./main.bicep
+        template: ./infra/main.bicep
         parameters: 'vnetName=mainvnetworktest1 vnetAddressSpace=10.1.0.0/16 snetAppSvcAddressPrefix=10.1.2.0/24 snetPrivateLinkAddressPrefix=10.1.1.0/24'
         failOnStdErr: false
