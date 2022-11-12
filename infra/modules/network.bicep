@@ -8,11 +8,11 @@ param snetAppSvcAddressPrefix string
 @description('Subnet for App Private Endpoint')
 param snetPrivateLinkAddressPrefix string
 @description('Location')
-param location string = resourceGroup().location // MAŁA ZMIANA 
+
 
 resource vnet 'Microsoft.Network/virtualNetworks@2022-05-01' = {
   name: vnetName
-  location: location
+  location: resourceGroup().location
   properties: {
     addressSpace: {
       addressPrefixes: [
