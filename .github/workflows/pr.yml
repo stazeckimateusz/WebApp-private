@@ -5,7 +5,7 @@ on:
     branches: [ main ]
     paths:
     - infra/*.bicep
-    - infra/modules*.bicep
+    - infra/modules/*.bicep
 
 jobs:
   build-and-deploy:
