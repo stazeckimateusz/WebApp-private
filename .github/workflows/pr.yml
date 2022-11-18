@@ -1,0 +1,51 @@
+name: IaC PR Review
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+    - infra/*.bicep
+    - infra/modules*.bicep
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+      # Checkout code
+    - uses: actions/checkout@main
+
+      # Log into Azure
+    - uses: azure/actions/login@v1
+      with:
+        creds: ${{ secrets.MENTORINGWEBAPPCONNECTION }}
+
+    - name: Deployment validate
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az deployment validate --location WestEurope \
+                                 --template-file ./infra/main.bicep \
+                                 --parameters vnetName=mainvnetworktest1 vnetAddressSpace=10.1.0.0/16 snetAppSvcAddressPrefix=10.1.2.0/24 snetPrivateLinkAddressPrefix=10.1.1.0/24
+
+    - name: Azure CLI script file
+      uses: azure/CLI@v1
+      env:
+        AZURE_CORE_NO_COLOR: True
+      with:
+        inlineScript: |
+          az deployment group what-if --no-prompt \
+                                      --resource-group ${{ secrets.AZURE_RG }} \
+                                      --template-file ./infra/main.bicep \
+                                      --parameters vnetName=mainvnetworktest1 vnetAddressSpace=10.1.0.0/16 snetAppSvcAddressPrefix=10.1.2.0/24 snetPrivateLinkAddressPrefix=10.1.1.0/24 | tee -a what-if.log
+
+    - uses: actions/github-script@v1
+      with:
+        script: |
+          const fs = require('fs')
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: "The deployment will do the following changes:\n```\n" + fs.readFileSync("what-if.log", "ascii") + "```"
+          })
