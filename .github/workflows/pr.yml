@@ -6,11 +6,9 @@ on:
     paths:
     - infra/*.bicep
     - infra/modules/*.bicep
-
 permissions:
       id-token: write
       contents: read
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
