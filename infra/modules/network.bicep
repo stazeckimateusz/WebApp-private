@@ -37,3 +37,11 @@ resource snetprivatelink 'Microsoft.Network/virtualNetworks/subnets@2022-05-01' 
     addressPrefix: snetPrivateLinkAddressPrefix
   }
 }
+
+resource test 'Microsoft.Network/virtualNetworks/subnets@2022-05-01' = {
+  name:  'test'
+  parent: vnet
+  properties: {
+    addressPrefix: '10.1.3.0/24'
+  }
+}//testtest
