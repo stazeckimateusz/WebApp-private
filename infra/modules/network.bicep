@@ -44,4 +44,4 @@ resource test 'Microsoft.Network/virtualNetworks/subnets@2022-05-01' = {
   properties: {
     addressPrefix: '10.1.3.0/24'
   }
-}
+}//testtest
